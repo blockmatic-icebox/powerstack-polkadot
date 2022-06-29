@@ -2,7 +2,7 @@ version: '3.5'
 
 services:
   postgres:
-    container_name: bitcash-postgres
+    container_name: powerstack-postgres
     image: postgres:10.4
     volumes:
       - pg-data:/var/lib/postgresql/data
@@ -18,8 +18,8 @@ services:
     command: -p 5432
 
   apollo:
-    container_name: bitcash-apollo
-    image: bitcash-apollo:local
+    container_name: powerstack-apollo
+    image: powerstack-apollo:local
     ports:
       - '${APOLLO_SERVICE_PORT}:${APOLLO_SERVICE_PORT}'
     depends_on:
@@ -29,8 +29,8 @@ services:
       PORT: ${APOLLO_SERVICE_PORT}
 
   hasura:
-    container_name: bitcash-hasura
-    image: bitcash-hasura:local
+    container_name: powerstack-hasura
+    image: powerstack-hasura:local
     ports:
       - '${HASURA_GRAPHQL_SERVER_PORT}:${HASURA_GRAPHQL_SERVER_PORT}'
     depends_on:
@@ -48,22 +48,11 @@ services:
       HASURA_GRAPHQL_ENABLE_CONSOLE: 'true'
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
       HASURA_GRAPHQL_CORS_DOMAIN: '*'
-      bitcash-CUSTOM_REMOTE_SCHEMA_URL: http://apollo:${APOLLO_SERVICE_PORT}
-
-  auth-old:
-    container_name: bitcash-auth-old
-    image: bitcash-auth-old:local
-    ports:
-      - '${HASURA_AUTH_SERVICE_PORT}:${HASURA_AUTH_SERVICE_PORT}'
-    depends_on:
-      - postgres
-    restart: always
-    environment:
-      AUTH_EMAIL_TEMPLATE_FETCH_URL: ${AUTH_EMAIL_TEMPLATE_FETCH_URL}
+      powerstack-CUSTOM_REMOTE_SCHEMA_URL: http://apollo:${APOLLO_SERVICE_PORT}
 
   auth:
-    container_name: bitcash-auth
-    image: powerstack-auth:local
+    container_name: powerstack-auth
+    image: blockmatic/powerstack-auth
     ports:
       - '${HASURA_AUTH_SERVICE_PORT}:${HASURA_AUTH_SERVICE_PORT}'
     depends_on:
@@ -77,4 +66,4 @@ volumes:
 
 networks:
   default:
-    name: geeklist
+    name: powerstack
