@@ -1,10 +1,10 @@
 # PowerStack Compose
 
 Docker compose local environment
-## Learn
 
-https://learn.blockmatic.io/devops/
+⚡️ [PowerStack: a powerful fullstack web3 development framework](https://powerstack.xyz).
 
+_Disclaimer: This is a work in progress. Will be finalized soon._
 ## Usage
 
 1) Clone all services and build their images locally
