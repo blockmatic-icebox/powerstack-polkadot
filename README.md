@@ -2,7 +2,7 @@
 
 Docker compose local environment
 
-⚡️ [PowerStack: a powerful fullstack web3 development framework](https://powerstack.xyz).
+⚡️ [PowerStack: a powerful fullstack development framework](https://powerstack.xyz).
 
 _Disclaimer: This is a work in progress. Will be finalized soon._
 ## Usage
