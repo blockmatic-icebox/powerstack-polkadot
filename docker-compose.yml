@@ -48,7 +48,7 @@ services:
       HASURA_GRAPHQL_ENABLE_CONSOLE: 'true'
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
       HASURA_GRAPHQL_CORS_DOMAIN: '*'
-      powerstack-CUSTOM_REMOTE_SCHEMA_URL: http://apollo:${APOLLO_SERVICE_PORT}
+      HASURA_CUSTOM_REMOTE_SCHEMA_URL: http://apollo:${APOLLO_SERVICE_PORT}
 
   auth:
     container_name: powerstack-auth
