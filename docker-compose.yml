@@ -3,7 +3,7 @@ version: '3.5'
 services:
   postgres:
     container_name: powerstack-postgres
-    image: postgres:10.4
+    image: postgres:14.5
     volumes:
       - pg-data:/var/lib/postgresql/data
     ports:
@@ -11,10 +11,7 @@ services:
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: pass
-      DB_NAME: geeklist
-      DB_USER: user
-      DB_PASSWORD: pass
-      POSTGRES_DB: geeklist
+      POSTGRES_DB: powerstack
     command: -p 5432
 
   apollo:
@@ -41,7 +38,7 @@ services:
     restart: always
     environment:
       # https://hasura.io/docs/1.0/graphql/core/deployment/graphql-engine-flags/reference.html
-      HASURA_GRAPHQL_DATABASE_URL: postgres://user:pass@postgres:5432/geeklist?sslmode=disable
+      HASURA_GRAPHQL_DATABASE_URL: postgres://user:pass@postgres:5432/powerstack?sslmode=disable
       HASURA_GRAPHQL_ADMIN_SECRET: ${HASURA_GRAPHQL_ADMIN_SECRET}
       HASURA_GRAPHQL_SERVER_PORT: ${HASURA_GRAPHQL_SERVER_PORT}
       HASURA_GRAPHQL_DEV_MODE: 'true'
@@ -49,17 +46,18 @@ services:
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
       HASURA_GRAPHQL_CORS_DOMAIN: '*'
       HASURA_CUSTOM_REMOTE_SCHEMA_URL: http://apollo:${APOLLO_SERVICE_PORT}
+      HASURA_GRAPHQL_UNAUTHORIZED_ROLE: anon
 
-  auth:
-    container_name: powerstack-auth
-    image: blockmatic/powerstack-auth
-    ports:
-      - '${HASURA_AUTH_SERVICE_PORT}:${HASURA_AUTH_SERVICE_PORT}'
-    depends_on:
-      - postgres
-    restart: always
-    environment:
-      AUTH_EMAIL_TEMPLATE_FETCH_URL: ${AUTH_EMAIL_TEMPLATE_FETCH_URL}
+  # auth:
+  #   container_name: powerstack-auth
+  #   image: blockmatic/powerstack-auth
+  #   ports:
+  #     - '${HASURA_AUTH_SERVICE_PORT}:${HASURA_AUTH_SERVICE_PORT}'
+  #   depends_on:
+  #     - postgres
+  #   restart: always
+  #   environment:
+  #     AUTH_EMAIL_TEMPLATE_FETCH_URL: ${AUTH_EMAIL_TEMPLATE_FETCH_URL}
 
 volumes:
   pg-data:
