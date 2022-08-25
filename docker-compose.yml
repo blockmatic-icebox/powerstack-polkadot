@@ -48,16 +48,26 @@ services:
       HASURA_CUSTOM_REMOTE_SCHEMA_URL: http://apollo:${APOLLO_SERVICE_PORT}
       HASURA_GRAPHQL_UNAUTHORIZED_ROLE: anon
 
-  # auth:
-  #   container_name: powerstack-auth
-  #   image: blockmatic/powerstack-auth
-  #   ports:
-  #     - '${HASURA_AUTH_SERVICE_PORT}:${HASURA_AUTH_SERVICE_PORT}'
-  #   depends_on:
-  #     - postgres
-  #   restart: always
-  #   environment:
-  #     AUTH_EMAIL_TEMPLATE_FETCH_URL: ${AUTH_EMAIL_TEMPLATE_FETCH_URL}
+  auth:
+    container_name: powerstack-auth
+    image: powerstack-auth:local
+    ports:
+      - '${AUTH_SERVICE_PORT}:${AUTH_SERVICE_PORT}'
+    depends_on:
+      - postgres
+    restart: always
+    environment:
+      DATABASE_URL: postgres://user:pass@postgres:5432/powerstack?sslmode=disable
+      PORT: ${AUTH_SERVICE_PORT}
+      SERVER_SECRET: super
+      HOSTNAME: '0.0.0.0'
+      JWT_SECRET: '{"type":"HS256","key":"xx52fa850c02dc222631cca898ed1485821a70912a6e3649c49076912daa3b62182ba013315915d64f402ddfbb8b58eb5bd11ba225136a6af45bbae07ca872f4","issuer":"hasura-auth"}'
+      JWT_TOKEN_EXPIRATION: 86400
+      TWITTER_CONSUMER_KEY: xx
+      TWITTER_CONSUMER_SECRET: xx
+      TWITTER_CALLBACK: http://localhost:4001/provider/twitter/cb
+      TWITTER_CLIENT_ID: xx
+      TWITTER_CLIENT_SECRET: xx
 
 volumes:
   pg-data:
